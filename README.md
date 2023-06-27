@@ -417,3 +417,73 @@ DELETE FROM customers WHERE email LIKE '%@example.com';
 ```
 
 This solution uses  `DELETE`  to remove all rows from the  `customers`  table where the  `email`  column ends in '@example.com'. The  `LIKE`  keyword is used with the  `%`  wildcard to match any email address that ends with '@example.com'.
+
+# One-to-Many Relationship
+
+A one-to-many relationship exists between two tables when one record in the first table corresponds to one or more records in the second table.
+
+## Example
+
+| Students | Classes |
+|---|---|
+| ID | ID |
+| Name | Class Name |
+| Age | Teacher |
+| Class ID | &#8594; |
+
+In this example, the `Class ID` column in the `Students` table is a foreign key that references the `ID` column in the `Classes` table. This relationship allows us to retrieve all the classes attended by a particular student or all the students attending a particular class.
+
+# Many-to-One Relationship
+
+A many-to-one relationship exists between two tables when many records in the first table correspond to one record in the second table.
+
+## Example
+
+| Orders | Customers |
+|---|---|
+| ID | ID |
+| Date | Name |
+| Amount | Email |
+| CustID | &#8594; |
+
+In this example, the `CustID` column in the `Orders` table is a foreign key that references the `ID` column in the `Customers` table. This relationship allows us to retrieve all the orders placed by a particular customer.
+
+# Conclusion
+
+Understanding one-to-many and many-to-one relationships is essential for designing efficient and scalable databases. By using foreign keys, we can establish these relationships and retrieve data from multiple tables easily.
+
+# Quiz
+
+In a one-to-many relationship, how many records in the second table correspond to one record in the first table?
+
+* One
+* Many
+* Zero
+* None of the above
+
+**Answer: b**
+
+In a many-to-one relationship, how many records in the first table correspond to one record in the second table?
+
+* One
+* Many
+* Zero
+* None of the above
+
+**Answer: b**
+
+Which of the following is a foreign key in the following table relationship?
+
+| Orders | Customers |
+|---|---|
+| ID | ID |
+| Date | Name |
+| Amount | Email |
+| CustID | &#8594; |
+
+* ID in the Orders table
+* ID in the Customers table
+* Name in the Customers table
+* CustID in the Orders table
+
+**Answer: d**
