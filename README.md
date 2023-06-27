@@ -218,3 +218,202 @@ In PostgreSQL, we can use  string operators  and functions to manipulate strings
 -   `||`:  Concatenation  operator that combines two strings into one.
 -   `LENGTH(string)`: Function that returns the length of a string.
 -   `SUBSTR(string, start, length)`: Function
+
+## 13. Filtering Rows with "Where"
+
+In  PostgreSQL, we can use the  `WHERE`  keyword to filter rows based on a specified condition. The basic syntax for using  `WHERE`  is as follows:
+
+```
+SELECT column1, column2, ... FROM table_name WHERE condition;
+
+```
+
+Here is an example of using  `WHERE`  to filter rows from an  `employees`  table based on age:
+
+```
+SELECT * FROM employees WHERE age > 30;
+
+```
+
+This will retrieve all columns (`*`) from the  `employees`  table where the  `age`  column is greater than 30.
+
+## 14. More on the "Where" Keyword
+
+In addition to using  comparison operators  like  `>`  and  `<`, we can also use other operators in conjunction with  `WHERE`  to filter rows based on more complex conditions. Some common operators include:
+
+-   `=`: Equal to
+-   `<>`  or  `!=`: Not equal to
+-   `LIKE`: Matches a pattern (use  `%`  as a wildcard)
+-   `IN`: Matches any of a list of values
+-   `NOT`: Negates a condition
+
+Here are some examples of using these operators in  `WHERE`  clauses:
+
+sql
+
+Copy
+
+```
+SELECT * FROM employees WHERE name = 'Alice'; -- Matches rows where name is exactly 'Alice'
+SELECT * FROM employees WHERE age <> 30; -- Matches rows where age is not equal to 30
+SELECT * FROM employees WHERE name LIKE 'A%'; -- Matches rows where name starts with 'A'
+SELECT * FROM employees WHERE age IN (25, 35); -- Matches rows where age is either 25 or 35
+SELECT * FROM employees WHERE NOT (name = 'Bob' AND age = 30); -- Matches rows where name is not 'Bob' OR age is not 30
+
+```
+
+## 15. Compound "Where" Clauses
+
+We can also use multiple conditions in a  `WHERE`  clause to create more  complex filters. We can use the  `AND`  and  `OR`  operators to combine conditions in a single  `WHERE`  clause.
+
+Here is an example of using  `AND`  to filter rows from an  `employees`  table based on both name and age:
+
+```
+SELECT * FROM employees WHERE name = 'Alice' AND age > 25;
+
+```
+
+This will retrieve all columns (`*`) from the  `employees`  table where the  `name`  column is  `'Alice'`  and the  `age`  column is greater than 25.
+
+Here is an example of using  `OR`  to filter rows based on two different conditions:
+
+```
+SELECT * FROM employees WHERE name = 'Alice' OR age > 30;
+
+```
+
+This will retrieve all columns (`*`) from the  `employees`  table where the  `name`  column is  `'Alice'`  or the  `age`  column is greater than 30.
+
+## 16. A "Where" Exercise Overview
+
+Let's practice using the  `WHERE`  keyword to filter rows from a table.
+
+Suppose we have an  `orders`  table that contains information about customer orders, including the customer's name, the date the order was placed, and the total amount of the order. We want to retrieve all orders placed by customers named 'Alice' that were placed on or after January 1st, 2020.
+
+## Coding Exercise 3: Practicing Where Statements
+
+Write a  SQL query  that retrieves all columns from the  `orders`  table where the  `customer_name`  column is 'Alice' and the  `order_date`  column is greater than or equal to '2020-01-01'.
+
+## 17. A "Where" Solution
+
+Here is a possible solution to  Coding Exercise 3:
+
+```
+SELECT * FROM orders
+WHERE customer_name = 'Alice'
+AND order_date >= '2020-01-01';
+
+```
+
+This solution uses  `WHERE`  to filter rows from the  `orders`  table based on two conditions: that the  `customer_name`  column is  `'Alice'`  and that the  `order_date`  column is greater than or equal to  `'2020-01-01'`.
+
+## 18. "Where" With Lists
+
+We can also use the  `IN`  operator in a  `WHERE`  clause to filter rows based on a list of values. Here is an example of using  `IN`  to retrieve rows from a  `users`  table where the  `name`  column is either 'Alice' or 'Bob':
+```
+SELECT * FROM users WHERE name IN ('Alice', 'Bob');
+
+```
+
+## 19. A "Where" With Lists Solution
+
+Let's practice using the  `IN`  operator in a  `WHERE`  clause.
+
+Suppose we have a  `sales`  table that contains information about phone sales, including the  phone model  and the price per phone. We want to retrieve all rows from the  `sales`  table where the phone model is either 'iPhone' or 'Samsung'.
+
+## Coding Exercise 4: A More Challenging 'Where'
+
+Write a SQL query that retrieves all columnsfrom the  `sales`  table where the  `phone_model`  column is either 'iPhone' or 'Samsung'.
+
+## 20. Calculations in "Where" Clauses
+
+We can also perform calculations in a  `WHERE`  clause to filter rows based on the result of a calculation. For example, we can retrieve all rows from a  `sales`  table where the  `price_per_phone`  column is greater than $500:
+
+```
+SELECT * FROM sales WHERE price_per_phone > 500;
+
+```
+
+## 21. Solving Calculations
+
+Let's practice using calculations in a  `WHERE`  clause.
+
+Suppose we have a  `products`  table that contains information about products, including the  product name  and the price per unit. We want to retrieve all rows from the  `products`  table where the price per unit is less than $10.
+
+## Coding Exercise 5: Trying Calculations in Where Clauses
+
+Write a SQL query that retrieves all columns from the  `products`  table where the  `price_per_unit`  column is less than $10.
+
+## 22. Updating Rows
+
+In addition to retrieving rows from a table, we can also update rows using the  `UPDATE`  statement. The basic syntax for  `UPDATE`  is as follows:
+
+```
+UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;
+
+```
+
+Here is an example of using  `UPDATE`  to set the  `price_per_phone`  of all rows in a  `sales`  table where the  `phone_model`  is 'iPhone' to $600:
+
+```
+UPDATE sales SET price_per_phone = 600 WHERE phone_model = 'iPhone';
+
+```
+
+## 23. Deleting Rows
+
+We can also delete rows from a table using the  `DELETE`  statement. The basic syntax for  `DELETE`  is as follows:
+
+```
+DELETE FROM table_name WHERE condition;
+
+```
+
+Here is an example of using  `DELETE`  to delete all rows from a  `sales`  table where the  `phone_model`  is 'iPhone':
+
+```
+DELETE FROM sales WHERE phone_model = 'iPhone';
+
+```
+
+## Coding Exercise 6: Try Updating Records In a Table!
+
+Let's practice using the  `UPDATE`  statement to modify rows in a table.
+
+Suppose we have a  `users`  table that contains information about users, including their name and age. We want to update the age of the user named 'Alice' to 35.
+
+## Coding Exercise 6: Try Updating Records In a Table!
+
+Write a SQL query that updates the  `age`  column of the  `users`  table to 35 for the row where the  `name`  column is 'Alice'.
+
+## 24. A Solution for Updating Rows
+
+Here is a possible solution to  Coding Exercise 6:
+
+```
+UPDATE users SET age = 35 WHERE name = 'Alice';
+
+```
+
+This solution uses  `UPDATE`  to modify the  `age`  column of the  `users`  table to 35 where the  `name`  column is  `'Alice'`.
+
+## Coding Exercise 7: Practice Deleting Records
+
+Let's practice using the  `DELETE`  statement to delete rows from a table.
+
+Suppose we have a  `customers`  table that contains information about customers, including their name and email address. We want to delete all rows from the  `customers`  table where the  email address  ends in '@example.com'.
+
+## Coding Exercise 7: Practice Deleting Records
+
+Write a SQL query that deletes all rows from the  `customers`  table where the  `email`  column ends in '@example.com'.
+
+## 25. Solution for Deleting Rows
+
+Here is a possible solution to  Coding Exercise 7:
+
+```
+DELETE FROM customers WHERE email LIKE '%@example.com';
+
+```
+
+This solution uses  `DELETE`  to remove all rows from the  `customers`  table where the  `email`  column ends in '@example.com'. The  `LIKE`  keyword is used with the  `%`  wildcard to match any email address that ends with '@example.com'.
