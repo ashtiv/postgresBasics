@@ -487,3 +487,78 @@ Which of the following is a foreign key in the following table relationship?
 * CustID in the Orders table
 
 **Answer: d**
+
+## Auto-Generated IDs
+
+When creating a new row in a table, it's common to assign a unique ID to that row. This ID can be used as a primary key or a  foreign key  in other tables. The easiest way to create an auto-generated ID is to use an  integer data type  and set it as the primary key column. Most databases have a built-in function that generates a new ID each time a row is added to the table.
+
+### Example:
+
+Let's say we have a "Customers" table and we want to add an auto-generated ID column:
+
+```
+CREATE TABLE Customers (
+  ID SERIAL PRIMARY KEY,
+  Name TEXT,
+  Email TEXT
+);
+
+```
+
+In this example, the "ID" column is assigned as the primary key and set to auto-generate a new ID each time a row is added to the table.
+
+## Setting Constraints Around Insertion
+
+When creating a  foreign key column, it's important to set constraints around insertion to ensure that only valid data is added to the table. For example, if we have a "Customers" table and a "Orders" table, we need to ensure that only valid customer IDs are added to the "Orders" table. We can set a  foreign key constraint  to achieve this.
+
+### Example:
+
+Let's say we have an "Orders" table that references the "Customers" table using the "CustID" column:
+
+```
+CREATE TABLE Orders (
+  ID SERIAL PRIMARY KEY,
+  Date DATE,
+  Amount NUMERIC(10, 2),
+  CustID INTEGER REFERENCES Customers(ID)
+);
+
+```
+
+In this example, the "CustID" column in the "Orders" table is a foreign key that references the "ID" column in the "Customers" table. We can set a foreign key constraint to ensure that only valid customer IDs are added to the "Orders" table. If a  customer ID  that does not exist in the "Customers" table is inserted into the "Orders" table, the database will throw an error and prevent the insertion.
+
+## Setting Constraints Around Deletion
+
+When deleting data from a table, it's important to consider the impact on related tables. For example, if we delete a customer from the "Customers" table, we need to decide what should happen to the related records in the "Orders" table. There are several options for handling this situation, including setting foreign keys to null on delete or preventing the deletion altogether.
+
+### Example:
+
+Let's say we have an "Orders" table that references the "Customers" table using the "CustID" column:
+
+```
+CREATE TABLE Orders (
+  ID SERIAL PRIMARY KEY,
+  Date DATE,
+  Amount NUMERIC(10, 2),
+  CustID INTEGER REFERENCES Customers(ID) ON DELETE SET NULL
+);
+
+```
+
+In this example, if we delete a customer from the "Customers" table, we set the foreign key in the "Orders" table to null. Alternatively, we can set a constraint to prevent the deletion of a customer if they have orders associated with them.
+
+### Cascading
+
+In addition to setting foreign keys to null or preventing deletion, we can also use cascading to automatically delete related records when a record in the parent table is deleted. For example, if we delete a customer from the "Customers" table, we might want to automatically delete all the orders associated with that customer from the "Orders" table.
+
+```
+CREATE TABLE Orders (
+  ID SERIAL PRIMARY KEY,
+  Date DATE,
+  Amount NUMERIC(10, 2),
+  CustID INTEGER REFERENCES Customers(ID) ON DELETE CASCADE
+);
+
+```
+
+In this example, if we delete a customer from the "Customers" table, all orders associated with that customer will be automatically deleted from the "Orders" table.
