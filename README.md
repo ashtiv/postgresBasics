@@ -562,3 +562,183 @@ CREATE TABLE Orders (
 ```
 
 In this example, if we delete a customer from the "Customers" table, all orders associated with that customer will be automatically deleted from the "Orders" table.
+
+# Adding Some Data
+
+To demonstrate the use of auto-generated IDs and foreign keys in  database design, let's add some data to our "Customers" and "Orders" tables.
+
+```
+INSERT INTO Customers (Name, Email) VALUES ('John Smith', 'jsmith@email.com');
+INSERT INTO Customers (Name, Email) VALUES ('Jane Doe', 'jdoe@email.com');
+
+```
+
+These commands will add two customers to the "Customers" table.
+
+```
+INSERT INTO Orders (Date, Amount, CustID) VALUES ('2022-01-01', 100.00, 1);
+INSERT INTO Orders (Date, Amount, CustID) VALUES ('2022-02-01', 200.00, 1);
+INSERT INTO Orders (Date, Amount, CustID) VALUES ('2022-03-01', 300.00, 2);
+
+```
+
+These commands will add three orders to the "Orders" table. The first two orders are associated with the first customer, and the third order is associated with the second customer.
+
+# Queries with Joins and Aggregations
+
+We can use joins to combine data from multiple tables. For example, to retrieve a list of all orders with the  customer name  and email, we can use a join between the "Orders" table and the "Customers" table.
+
+```
+SELECT Orders.ID, Orders.Date, Orders.Amount, Customers.Name, Customers.Email
+FROM Orders
+INNER JOIN Customers ON Orders.CustID = Customers.ID;
+
+```
+
+This command will return a table that includes the  order ID, date, amount, and the corresponding customer name and email.
+
+We can also use aggregate functions to calculate  summary statistics  on our data. For example, to calculate the total amount of orders for each customer, we can use a  GROUP BY clause  and the  SUM function.
+
+```
+SELECT Customers.Name, SUM(Orders.Amount) AS TotalAmount
+FROM Orders
+INNER JOIN Customers ON Orders.CustID = Customers.ID
+GROUP BY Customers.Name;
+
+```
+
+This command will return a table that includes the customer name and the total amount of orders for that customer.
+
+# Joining Data from Different Tables
+
+Sometimes, we need to join data from multiple tables that are not directly related. In these cases, we can use  multiple joins  to link the tables together.
+
+For example, let's say we have a "Products" table that includes information about the products sold in our orders. We can join the "Orders" table and the "Customers" table as before, and then join the "Products" table to retrieve information about the products in each order.
+
+```
+SELECT Customers.Name, Orders.Date, Products.Name AS ProductName, Orders.Amount
+FROM Orders
+INNER JOIN Customers ON Orders.CustID = Customers.ID
+INNER JOIN OrderDetails ON Orders.ID = OrderDetails.OrderID
+INNER JOIN Products ON OrderDetails.ProductID = Products.ID;
+
+```
+
+This command will return a table that includes the customer name,  order date,  product name, and order amount for each order.
+
+# Another Quick Join
+
+We can also use a  LEFT JOIN  to retrieve data from one table even if there is no corresponding data in the other table.
+
+For example, let's say we want to retrieve a list of all customers and their orders, even if they haven't made any orders yet.
+
+```
+SELECT Customers.Name, Orders.Date, Orders.Amount
+FROM Customers
+LEFT JOIN Orders ON Customers.ID = Orders.CustID;
+
+```
+
+This command will return a table that includes the customer name and  order information  for each order, but will also include customers with no orders.
+
+# Exercise Overview
+
+Now that we've covered the basics of joins and aggregations, let's practice with some exercises.
+
+# Practice Joining Data
+
+For this exercise, we have two tables: "Employees" and "Departments". The "Employees" table includes information about the employees in a company, and the "Departments" table includes information about the departments in the company.
+
+We want to retrieve a list of all employees and their corresponding department names. Write a  SQL query  to accomplish this task.
+
+```
+SELECT Employees.Name, Departments.Name AS Department
+FROM Employees
+INNER JOIN Departments ON Employees.DepartmentID = Departments.ID;
+
+```
+
+This command will return a table that includes the  employee name  and their corresponding department name.
+
+# A Joinful Solution
+
+In some cases, there may be multiple ways to write a SQL query that accomplishes the same task. Here's an alternate way to write the previous query using a LEFT JOIN.
+
+```
+SELECT Employees.Name, Departments.Name AS Department
+FROM Employees
+LEFT JOIN Departments ON Employees.DepartmentID = Departments.ID;
+
+```
+
+This command will return the same table as before, but will also include employees with no department information.
+
+# Alternate Forms of Syntax
+
+SQL syntax  can vary between database management systems. Here are some examples of  alternate syntax  for the same commands we've used in this article.
+
+### Auto-Generated IDs (MySQL)
+
+```
+CREATE TABLE Customers (
+  ID INT AUTO_INCREMENT PRIMARY KEY,
+Name VARCHAR(255),
+  Email VARCHAR(255)
+);
+
+```
+
+In MySQL, we use the AUTO_INCREMENT keyword instead of SERIAL to create an auto-generated ID column.
+
+### Setting Constraints Around Insertion (Oracle)
+
+```
+CREATE TABLE Orders (
+  ID NUMBER PRIMARY KEY,
+  Date DATE,
+  Amount NUMBER(10, 2),
+  CustID NUMBER,
+  CONSTRAINT FK_CustID FOREIGN KEY (CustID) REFERENCES Customers(ID)
+);
+
+```
+
+In  Oracle, we use the  CONSTRAINT keyword  to set  foreign key constraints.
+
+### Setting Constraints Around Deletion (SQL Server)
+
+```
+CREATE TABLE Orders (
+  ID INT PRIMARY KEY,
+  Date DATE,
+  Amount DECIMAL(10, 2),
+  CustID INT FOREIGN KEY REFERENCES Customers(ID) ON DELETE SET NULL
+);
+
+```
+
+In SQL Server, we use the ON DELETE SET NULL syntax to set foreign keys to null on delete.
+
+### Joining Data from Different Tables (SQLite)
+
+```
+SELECT Customers.Name, Orders.Date, Products.Name AS ProductName, Orders.Amount
+FROM Orders
+INNER JOIN Customers ON Orders.CustID = Customers.ID
+INNER JOIN OrderDetails ON Orders.ID = OrderDetails.OrderID
+INNER JOIN Products ON OrderDetails.ProductID = Products.ID;
+
+```
+
+In  SQLite, we use the  INNER JOIN keyword  to join tables together. The syntax for  aggregate functions  and  group by clauses  is the same as in other  database management systems.
+
+### Another Quick Join (PostgreSQL)
+
+```
+SELECT Customers.Name, Orders.Date, Orders.Amount
+FROM Customers
+LEFT JOIN Orders ON Customers.ID = Orders.CustID;
+
+```
+
+In PostgreSQL, we use the  LEFT JOIN keyword  to retrieve data from one table even if there is no corresponding data in the other table.
