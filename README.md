@@ -1327,3 +1327,203 @@ WHERE age > 30;
 ```
 
 This query will return the name, age, salary, and average salary for employees who are older than 30.
+
+# Subqueries in a From
+
+In SQL, we can also use subqueries in the  `FROM`  clause of a query. This allows us to use the results of a subquery as a table that we can join with other tables or filter using the  `WHERE`  clause.
+
+Here's the basic syntax for a subquery in the  `FROM`  clause:
+
+sql
+
+Copy
+
+```
+SELECT column1, column2, ...
+FROM (SELECT column1, column2, ... FROM table_name WHERE condition) AS subquery_alias
+JOIN another_table ON subquery_alias.column_name = another_table.column_name;
+
+```
+
+In this syntax, the subquery is enclosed in parentheses and is given a table alias using the  `AS`  keyword. We can then join this table with another table or filter it using the  `WHERE`  clause.
+
+Let's look at an example:
+
+Suppose we have a table called  `orders`  with columns for  `order_id`,  `customer_id`, and  `order_date`. We want to find the total number of orders for each customer.
+
+We can use a subquery in the  `FROM`  clause to group the orders by  customer ID  and count the number of orders:
+
+sql
+
+Copy
+
+```
+SELECT customer_id, COUNT(*) AS num_orders
+FROM (SELECT customer_id, order_id FROM orders) AS subquery_alias
+GROUP BY customer_id;
+
+```
+
+This will give us a result set that includes the customer ID and the total number of orders for each customer.
+
+# From Subqueries that Return a Value
+
+We can also use subqueries in the  `FROM`  clause to return a single value that can be used in the main query as a filter or in an expression.
+
+Here's the basic syntax for a subquery in the  `FROM`  clause that returns a value:
+
+sql
+
+Copy
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column1 = (SELECT column_name FROM another_table WHERE condition);
+
+```
+
+In this syntax, the subquery is used as a filter in the  `WHERE`  clause of the main query, and it returns a single value that is used to filter the results of the  main query.
+
+Let's look at an example:
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to find all employees who have a salary greater than the average salary for all employees.
+
+We can use a subquery in the  `FROM`  clause to calculate the average salary:
+
+sql
+
+Copy
+
+```
+SELECT name, age, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees);
+
+```
+
+This will give us a result set that includes the names, ages, and salaries of all employees who have a salary greater than the average salary for all employees.
+
+# Example of a Subquery in a From
+
+Let's practice using a subquery in the  `FROM`  clause with an example.
+
+Suppose we have a table called  `orders`  with columns for  `order_id`,  `customer_id`, and  `order_date`. We want to find the total number of orders for each customer who has placed more than 5 orders.
+
+Here's the  SQL query  to do this:
+
+```
+SELECT customer_id, COUNT(*) AS num_orders
+FROM (SELECT customer_id, order_id FROM orders) AS subquery_alias
+GROUP BY customer_id
+HAVING COUNT(*) > 5;
+
+```
+
+This query will return the customer ID and the total number of orders for each customer who has placed more than 5 orders.
+
+# Exercise Solution
+
+Here's the solution to the exercise:
+
+```
+SELECT AVG(salary) AS avg_salary
+FROM (SELECT DISTINCT department_id FROM employees) AS subquery_alias
+JOIN employees ON subquery_alias.department_id = employees.department_id;
+
+```
+
+This query will return the average salary for all employees in each department.
+
+# Subqueries in a Join Clause
+
+We can also use subqueries in the  `JOIN`  clause of a query. This allows us to join a table with the results of a subquery.
+
+Here's the basic syntax for a subquery in the  `JOIN`  clause:
+
+```
+SELECT column1, column2, ...
+FROM table1
+JOIN (SELECT column1, column2, ... FROM table2 WHERE condition) AS subquery_alias
+ON table1.column_name = subquery_alias.column_name;
+
+```
+
+In this syntax, the subquery is enclosed in parentheses and is given a table alias using the  `AS`  keyword. We can then join this table with another table using the  `ON`  clause.
+
+Let's look at an example:
+
+Suppose we have two tables:  `employees`  and  `departments`. The  `employees`  table contains information about each employee, including their name, salary, and  department ID. The  `departments`  table contains information about each department, including its name and ID.
+
+We want to find all employees who work in the Sales department and their department name. We can use a subquery in the  `JOIN`  clause to get the department name:
+
+```
+SELECT employees.name, employees.salary, departments.nameFROM employees
+JOIN (SELECT id, name FROM departments) AS subquery_alias
+ON employees.department_id = subquery_alias.id
+WHERE subquery_alias.name = 'Sales';
+
+```
+
+This will give us a result set that includes the names, salaries, and  department names  of all employees who work in the Sales department.
+
+# More Useful - Subqueries with Where
+
+We can also use subqueries in the  `WHERE`  clause of a query to filter results based on the results of a subquery.
+
+Here's the basic syntax for a subquery in the  `WHERE`  clause:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name IN (SELECT column_name FROM another_table WHERE condition);
+
+```
+
+In this syntax, the subquery is enclosed in parentheses and is used as a filter in the  `WHERE`  clause of the main query.
+
+Let's look at an example:
+
+Suppose we have a table called  `orders`  with columns for  `order_id`,  `customer_id`, and  `order_date`. We want to find all customers who have placed an order in the last month.
+
+We can use a subquery in the  `WHERE`  clause to find the  latest order date  and then use it as a filter:
+
+```
+SELECT DISTINCT customer_id
+FROM orders
+WHERE order_date > (SELECT MAX(order_date) - INTERVAL '1 month' FROM orders);
+
+```
+
+This will give us a result set that includes the IDs of all customers who have placed an order in the last month.
+
+# Data Structure with Where Subqueries
+
+Let's practice using a subquery in the  `WHERE`  clause with an example.
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to find all employees who have a salary greater than the average salary for their department.
+
+Here's the SQL query to do this:
+
+```
+SELECT name, age, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees WHERE department_id = employees.department_id);
+
+```
+
+This query will return the names, ages, and salaries of all employees who have a salary greater than the average salary for their department.
+
+# Exercise Solution
+
+Here's the solution to the exercise:
+
+```
+SELECT customer_id, COUNT(*) AS num_orders
+FROM orders
+WHERE customer_id IN (SELECT customer_id FROM orders WHERE order_date >= '2022-01-01')
+GROUP BY customer_id;
+
+```
+
+This query will return the customer ID and the total number of orders for each customer who has placed an order after January 1, 2022.
