@@ -742,3 +742,237 @@ LEFT JOIN Orders ON Customers.ID = Orders.CustID;
 ```
 
 In PostgreSQL, we use the  LEFT JOIN keyword  to retrieve data from one table even if there is no corresponding data in the other table.
+
+## Missing Data in Joins
+
+It is possible that some data may be missing or not present in one of the tables being joined. In such cases, there are four types of joins that can be used to handle the  missing data:
+
+1.  **Inner Join**  - returns only the rows that have matching data in both tables.
+2.  **Left Join**  - returns all the rows from the left table and the matching rows from the right table. If there is no match, the result will contain null values for the right table.
+3.  **Right Join**  - returns all the rows from the right table and the matching rows from the left table. If there is no match, the result will contain null values for the left table.
+4.  **Full Outer Join**  - returns all the rows from both tables, including  null values  where there is no match.
+
+## Why Wasn't It Included
+
+Sometimes, a table may not be included in a  join query  because it is not relevant to the analysis or its data may not be needed. In such cases, the table can be omitted from the query altogether.
+
+## Four Kinds of Joins
+
+There are four types of joins in PostgreSQL:
+
+1.  **Inner Join**  - returns only the rows that have matching data in both tables.
+2.  **Left Join**  - returns all the rows from the left table and the matching rows from the right table. If there is no match, the result will contain null values for the right table.
+3.  **Right Join**  - returns all the rows from the right table and the matching rows from the left table. If there is no match, the result will contain null values for the left table.
+4.  **Full Outer Join**  - returns all the rows from both tables, including null values where there is no match.
+
+## Each Join in Practice
+
+Let's look at an example of each type of join in practice:
+
+### Inner Join
+
+The following query returns only the rows that have matching data in both tables:
+
+```
+SELECT *
+FROM table1
+INNER JOIN table2
+ON table1.id = table2.id;
+
+```
+
+### Left Join
+
+The following query returns all the rows from the left table and the matching rows from the right table. If there is no match, the result will contain null values for the right table:
+
+```
+SELECT *
+FROM table1
+LEFT JOIN table2
+ON table1.id = table2.id;
+
+```
+
+### Right Join
+
+The following query returns all the rows from the  right table  and the matching rows from the left table. If there is no match, the result will contain null values for the left table:
+
+```
+SELECT *
+FROM table1
+RIGHT JOIN table2
+ON table1.id = table2.id;
+
+```
+
+### Full Outer Join
+
+The following query returns all the rows from both tables, including null values where there is no match:
+
+```
+SELECT *
+FROM table1
+FULL OUTER JOIN table2
+ON table1.id = table2.id;
+
+```
+
+## Does Order Matter?
+
+The order of tables in a join query does not matter. For example, the following queries return the same result:
+
+```
+SELECT *
+FROM table1
+INNER JOIN table2
+ON table1.id = table2.id;
+
+SELECT *
+FROM table2
+INNER JOIN table1
+ON table1.id = table2.id;
+
+```
+
+## Quiz 7: Test Your Joining Knowledge
+
+Test your knowledge of joins in PostgreSQL with this quiz.
+
+## Exercise Overview
+
+In this exercise, we will practice using joins on a sample database. We will be using three tables:  `employees`,  `departments`, and  `dept_emp`.
+
+## Coding Exercise 10: Joins, Joins, Join!
+
+Complete the following tasks using joins:
+
+1.  Retrieve the first name,  last name, and  department name  for all employees.
+2.  Retrieve the first name, last name, and department name for all employees who worked in the sales department.
+3.  Retrieve the first name, last name, and department name for all employees who worked in the sales department between 1990 and 1995.
+
+## Two Possible Solutions
+
+Here are two possible solutions to this exercise:
+
+### Solution 1
+
+```
+-- Task 1
+SELECT e.first_name, e.last_name, d.dept_name
+FROM employees e
+INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+INNER JOIN departments d ON de.dept_no = d.dept_no;
+
+-- Task 2
+SELECT e.first_name, e.last_name, d.dept_name
+FROM employees e
+INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+INNER JOIN departments d ON de.dept_no = d.dept_no
+WHERE d.dept_name = 'Sales';
+
+-- Task 3
+SELECT e.first_name, e.last_name, d.dept_name
+FROM employees e
+INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+INNER JOIN departments d ON de.dept_no = d.dept_no
+WHERE d.dept_name = 'Sales'
+AND de.from_date >= '1990-01-01'
+AND de.to_date <= '1995-12-31';
+
+```
+
+### Solution 2
+
+```
+-- Task 1
+SELECT employees.first_name, employees.last_name, departments.dept_name
+FROM employees, dept_emp, departments
+WHERE employees.emp_no = dept_emp.emp_no
+AND dept_emp.dept_no = departments.dept_no;
+
+-- Task 2
+SELECT employees.first_name, employees.last_name, departments.dept_name
+FROM employees, dept_emp, departments
+WHERE employees.emp_no = dept_emp.emp_no
+AND dept_emp.dept_no = departments.dept_no
+AND departments.dept_name = 'Sales';
+
+-- Task 3
+SELECT employees.first_name, employees.last_name, departments.dept_name
+FROM employees, dept_emp, departments
+WHERE employees.emp_no = dept_emp.emp_no
+AND dept_emp.dept_no = departments.dept_no
+AND departments.dept_name = 'Sales'
+AND dept_emp.from_date >= '1990-01-01'
+AND dept_emp.to_date <= '1995-12-31';
+
+```
+
+## Where with Join
+
+In PostgreSQL, it is possible to use  `WHERE`  clauses with joins to filter the results further. For example:
+
+```
+SELECT *
+FROM table1
+INNER JOIN table2
+ON table1.id = table2.id
+WHERE table1.column = 'value';
+
+```
+
+This query will return only the rows from table1 that have a column value of 'value', and their matching rows from table2.
+
+## Three Way  Joins
+
+It is also possible to join three or more tables in PostgreSQL. For example:
+
+```
+SELECT *
+FROM table1
+INNER JOIN table2
+ON table1.id = table2.id
+INNER JOIN table3
+ON table2.id = table3.id;
+
+```
+
+This query joins three tables, with table1 and table2 joined on their id columns, and then table2 and table3 joined on their id columns.
+
+## A Bit of Practice
+
+Let's look at another example of using joins in practice:
+
+### Problem
+
+We have three tables:  `employees`,  `titles`, and  `salaries`. We want to retrieve the first name, last name, title, and salary for all employees.
+
+### Solution
+
+```
+SELECT e.first_name, e.last_name, t.title, s.salary
+FROM employees e
+INNER JOIN titles t ON e.emp_no = t.emp_no
+INNER JOIN salaries s ON e.emp_no = s.emp_no;
+
+```
+
+## Coding Exercise 11: Three Way Exercise
+
+Complete the following task using a three-way join:
+
+1.  Retrieve the  first name, last name, department name, and salary for all employees who worked in the sales department.
+
+## Exercise Solution
+
+```
+SELECT e.first_name, e.last_name, d.dept_name, s.salary
+FROM employees e
+INNER JOIN dept_emp de ON e.emp_no = de.emp_no
+INNER JOIN departments d ON de.dept_no = d.dept_no
+INNER JOIN salaries s ON e.emp_no = s.emp_no
+WHERE d.dept_name = 'Sales';
+
+```
+
+This query retrieves the first name, last name, department name, and salary for all employees who worked in the sales department. We join the  `employees`  and  `dept_emp`  tables on their  `emp_no`  columns, then the  `dept_emp`  and  `departments`  tables on their  `dept_no`  columns, and finally join the  `employees`  and  `salaries`  tables on their  `emp_no`  columns. We use a  `WHERE`  clause to filter the results to only include employees who worked in the sales department.
