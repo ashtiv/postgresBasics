@@ -1229,3 +1229,101 @@ OFFSET 10;
 ```
 
 This query will return the 11th to 15th highest paid employees, sorted by salary in descending order.
+# What's a Subquery?
+
+In SQL, a subquery is a query that is nested inside another query. It is used to retrieve data that will be used in the main query as a filter or in an expression.
+
+Here's the basic syntax for a subquery:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column1 IN (SELECT column_name FROM another_table WHERE condition);
+
+```
+
+In this syntax, the subquery is enclosed in parentheses and is used as a filter in the  `WHERE`  clause of the main query.
+
+Let's look at an example:
+
+Suppose we have two tables:  `employees`  and  `departments`. The  `employees`  table contains information about each employee, including their name, salary, and  department ID. The  `departments`  table contains information about each department, including its name and ID.
+
+We want to find all employees who work in the Sales department. We can use a subquery to get the department ID for the Sales department and then use it as a filter in the main query:
+
+```
+SELECT name, salary
+FROM employees
+WHERE department_id IN (SELECT id FROM departments WHERE name = 'Sales');
+
+```
+
+This will give us a result set that includes the names and salaries of all employees who work in the Sales department.
+
+# Thinking About the Structure of Data
+
+When working with SQL, it's important to think about the structure of the data you are working with. This includes understanding the relationships between tables and the types of data that are stored in each table.
+
+For example, suppose we have a database that contains information about books. We might have tables for  `authors`,  `books`, and  `publishers`. The  `authors`  table might include columns for the author's name and  ID, while the  `books`  table might include columns for the book's title,  author ID, and  publisher ID.
+
+By understanding the structure of the data, we can write more efficient and effective  SQL queries  that take advantage of the relationships between tables.
+
+# Subqueries in a Select
+
+In addition to using subqueries as filters in the  `WHERE`  clause, we can also use subqueries in the  `SELECT`  clause to perform calculations or retrieve additional data.
+
+Here's the basic syntax for a subquery in the  `SELECT`  clause:
+
+```
+SELECT column1, column2, ..., (SELECT column_name FROM another_table WHERE condition) AS column_alias
+FROM table_name;
+
+```
+
+In this syntax, the subquery is enclosed in parentheses and is used to retrieve a single value that will be included as a new column in the result set. The value is given a  column alias  using the  `AS`  keyword.
+
+Let's look at an example:
+
+Suppose we have a table called  `orders`  with columns for  `order_id`,  `customer_id`, and  `order_date`. We want to find the date of the customer's first order and include it as a new column in the result set.
+
+We can use a subquery in the  `SELECT`  clause to find the customer's  first order date:
+
+```
+SELECT customer_id, order_date, 
+  (SELECT MIN(order_date) FROM orders WHERE customer_id = o.customer_id) AS first_order_date
+FROM orders AS o;
+
+```
+
+This will give us a result set that includes the  customer ID,  order date, and first order date for each order in the table.
+
+# Embedding in Select
+
+Let's practice using subqueries in the  `SELECT`  clause with an example.
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to find the average salary for employees who are older than 30 and include it as a new column in the result set.
+
+Here's the  SQL query  to do this:
+
+```
+SELECT name, age, salary, 
+  (SELECT AVG(salary) FROM employees WHERE age > 30) AS avg_salary_over_30
+FROM employees
+WHERE age > 30;
+
+```
+
+This query will return the name, age, salary, and average salary for employees who are older than 30.
+
+# Select Solution
+
+Here's the solution to the exercise:
+
+```
+SELECT name, age, salary, 
+  (SELECT AVG(salary) FROM employees WHERE age > 30) AS avg_salary_over_30
+FROM employees
+WHERE age > 30;
+
+```
+
+This query will return the name, age, salary, and average salary for employees who are older than 30.
