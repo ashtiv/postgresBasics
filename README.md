@@ -1653,3 +1653,166 @@ WHERE salary > (SELECT AVG(salary) FROM employees WHERE department_id = 1);
 ```
 
 This query will return the names, ages, and salaries of all employees who have a salary greater than the average salary for the Sales department.
+
+# Probably Too Much About  Correlated Subqueries
+
+A correlated subquery is a subquery that depends on the values in the outer query. In other words, the subquery is executed once for each row in the outer query.
+
+Here's an example of a  correlated subquery:
+
+### Correlated Subquery Example:
+
+Suppose we have a "students" table with columns "student_id", "student_name", "class_id", and "score", and we want to find the  average score  of each student's class. We can use a  correlated subquery  to accomplish this:
+
+
+```
+SELECT student_id, 
+       (SELECT AVG(score) 
+        FROM students 
+        WHERE class_id = s.class_id) AS avg_score
+FROM students s;
+
+```
+
+In this query, we use a correlated subquery to calculate the average score for each student's class in the outer query.
+
+### Nested Subquery Example:
+
+Suppose we have a "books" table with columns "book_id", "book_name", and "author_id", and an "authors" table with columns "author_id" and "author_name", and we want to find the names of all authors who have written a book that costs more than $10. We can use a  nested subquery  to accomplish this:
+
+```
+SELECT author_name
+FROM authors
+WHERE author_id IN (
+  SELECT author_id
+  FROM books
+  WHERE book_id IN (
+    SELECT book_id
+    FROM books
+    WHERE books.author_id = authors.author_id
+    AND books.price > 10
+  )
+);
+
+```
+
+In this query, we use a nested subquery to first find the book ID(s) that costs more than $10 written by each author. We then use this result to select the names of authors who have written a book that costs more than $10.
+
+### Correlated Subquery in the  WHERE Clause  Example:
+
+Suppose we have a "orders" table with columns "order_id", "order_date", "customer_id", and "order_total", and we want to find all orders that have a total greater than the average total for that customer. We can use a correlated subquery in the WHERE clause to accomplish this:
+
+```
+SELECT *
+FROM orders
+WHERE order_total > (
+  SELECT AVG(order_total)
+  FROM orders
+  WHERE customer_id = orders.customer_id
+);
+
+```
+
+In this query, we use a correlated subquery in the WHERE clause to filter the result set based on the average total for each customer.
+
+### Nested Subquery in the FROM Clause Example:
+
+Suppose we have a "products" table with columns "product_id", "product_name", and "unit_price", and we want to find the total sales for each product. We can use a nested subquery in the  FROM clause  to accomplish this:
+
+```
+SELECT product_name, total_sales
+FROM products
+JOIN (
+  SELECT product_id, SUM(quantity * unit_price) AS total_sales
+  FROM order_details
+  GROUP BY product_id
+) AS sales ON products.product_id = sales.product_id;
+
+```
+
+In this query, we use a nested subquery in the  FROM  clause to first calculate the total sales for each product in the  `order_details`  table. We then join this result with the  `products`  table to select the  product name  and total sales for each product.
+
+### Correlated Subquery in the  SELECT Clause  Example:
+
+Suppose we have a "employees" table with columns "employee_id", "employee_name", "department_id", and "salary", and we want to find the employee with the highest salary in each department. We can use a correlated subquery in the SELECT clause to accomplish this:
+
+```
+SELECT department_id, 
+       (SELECT employee_name 
+        FROM employees 
+        WHERE department_id = e.department_id 
+        ORDER BY salary DESC 
+        LIMIT 1) AS highest_paid_employee
+FROM employees e
+GROUP BY department_id;
+
+```
+
+In this query, we use a correlated subquery in the SELECT clause to select the name of the employee with the highest salary in each department.
+**What is a from-less SELECT statement?**
+
+A from-less SELECT statement is a SELECT statement that does not include a FROM clause. Instead of selecting data from a table, a from-less SELECT statement can be used to select data that is not associated with any particular table. This can be useful in a variety of scenarios, such as when you need to perform calculations or generate random data.
+
+**Syntax of a from-less SELECT statement**
+
+The basic syntax of a from-less SELECT statement is as follows:
+```
+SELECT expression1, expression2, ...
+
+```
+
+In this syntax, the  SELECT keyword  is followed by one or more expressions that define the data to be selected. These expressions can be any valid  SQL expression, including  literal values, functions, and calculations.
+
+**Examples of from-less SELECT statements**
+
+Here are some examples of from-less SELECT statements based on a single reference table:
+
+1.  Selecting a constant value
+
+
+```
+SELECT 42;
+
+```
+
+This statement will select the constant value 42.
+
+2.  Selecting the current date
+
+
+```
+SELECT CURRENT_DATE;
+
+```
+
+This statement will select the current date.
+
+3.  Selecting a random number
+
+
+```
+SELECT RANDOM();
+
+```
+
+This statement will select a random number between 0 and 1.
+
+4.  Selecting a calculated value
+
+
+```
+SELECT 1 + 2 * 3;
+
+```
+
+This statement will select the calculated value 7.
+
+5.  Selecting a string value
+
+
+```
+SELECT 'hello';
+
+```
+
+This statement will select the string value 'hello'.
