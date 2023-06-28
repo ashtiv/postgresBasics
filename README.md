@@ -976,3 +976,131 @@ WHERE d.dept_name = 'Sales';
 ```
 
 This query retrieves the first name, last name, department name, and salary for all employees who worked in the sales department. We join the  `employees`  and  `dept_emp`  tables on their  `emp_no`  columns, then the  `dept_emp`  and  `departments`  tables on their  `dept_no`  columns, and finally join the  `employees`  and  `salaries`  tables on their  `emp_no`  columns. We use a  `WHERE`  clause to filter the results to only include employees who worked in the sales department.
+
+# Aggregating and Grouping in SQL
+
+In SQL, we can use  aggregate functions  and  grouping  to summarize and analyze data. Aggregate functions perform computations on a set of values and return a single value. Grouping allows us to group data by one or more columns and apply aggregate functions to each group.
+
+## Reference Table
+
+Let's start with an example table that we can use to demonstrate how to use aggregate functions and grouping in SQL. Consider the following table of sales data:
+
+```
+sales
++----+------------------+--------+
+| id | product_category | revenue|
++----+------------------+--------+
+|  1 | Electronics      |   5000 |
+|  2 | Clothing         |   2000 |
+|  3 | Electronics      |   3000 |
+|  4 | Clothing         |   1500 |
+|  5 | Furniture        |   4000 |
+|  6 | Furniture        |   2500 |
++----+------------------+--------+
+
+```
+
+## Aggregating Data
+
+There are several aggregate functions in SQL which can be used to summarize data. Let's take a look at some examples:
+
+-   `COUNT`: returns the number of rows in a group or table.
+-   `SUM`: returns the sum of the values in a group or table.
+-   `AVG`: returns the average of the values in a group or table.
+-   `MIN`: returns the minimum value in a group or table.
+-   `MAX`: returns the  maximum value  in a group or table.
+
+We can use these functions to summarize data and answer questions such as:
+
+-   How many rows are in a table?
+-   What is the total revenue for each product category?
+-   What is the average revenue across all sales?
+
+Let's run some SQL queries using the  `sales`  table to demonstrate these functions:
+
+```
+SELECT COUNT(*) FROM sales;
+
+```
+
+This query returns the number of rows in the  `sales`  table, which is 6.
+
+```
+SELECT SUM(revenue) FROM sales;
+
+```
+
+This query returns the sum of the  `revenue`  column in the  `sales`  table, which is 18000.
+
+```
+SELECT AVG(revenue) FROM sales;
+
+```
+
+This query returns the average of the  `revenue`  column in the  `sales`  table, which is 3000.
+
+```
+SELECT MIN(revenue) FROM sales;
+
+```
+
+This query returns the minimum value in the  `revenue`  column in the  `sales`  table, which is 1500.
+
+```
+SELECT MAX(revenue) FROM sales;
+
+```
+
+This query returns the maximum value in the  `revenue`  column in the  `sales`  table, which is 5000.
+
+## Grouping Data
+
+Grouping allows us to group rows in a table by one or more columns and apply aggregate functions to each group. For example, we can group sales data by  product category  and compute the total revenue for each category.
+
+To group data in SQL, we use the  `GROUP BY`  clause. The  `GROUP BY`  clause specifies one or more columns to group the data by. For example:
+
+```
+SELECT product_category, SUM(revenue)
+FROM sales
+GROUP BY product_category;
+
+```
+
+This query groups the  `sales`  table by  `product_category`  and computes the sum of  `revenue`  for each category. The result would be:
+
+```
++------------------+--------+
+| product_category | sum    |
++------------------+--------+
+| Electronics      |   8000 |
+| Clothing         |   3500 |
+| Furniture        |   6500 |
++------------------+--------+
+
+```
+
+We can also use the  `HAVING`  clause to filter groups based on their aggregate values. For example, to find product categories with total revenue greater than $5000, we can use the following query:
+
+```
+SELECT product_category, SUM(revenue)
+FROM sales
+GROUP BY product_category
+HAVING SUM(revenue) > 5000;
+
+```
+
+This query groups the  `sales`  table by  `product_category`, computes the sum of  `revenue`  for each category, and filters the groups to include only those with total revenue greater than $5000. The result would be:
+
+```
++------------------+--------+
+| product_category | sum    |
++------------------+--------+
+| Electronics      |   8000 |
+| Furniture        |   6500 |
++------------------+--------+
+
+```
+
+## Conclusion
+
+Aggregate functions and grouping are powerful tools for summarizing and analyzing data in SQL. By using these functions, we can quickly answer questions about our data and gain insights into trends and patterns.
