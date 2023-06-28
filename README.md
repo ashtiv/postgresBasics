@@ -1527,3 +1527,129 @@ GROUP BY customer_id;
 ```
 
 This query will return the customer ID and the total number of orders for each customer who has placed an order after January 1, 2022.
+
+# The Not In Operator with a List
+
+In SQL, we can use the  `NOT IN`  operator with a list of values to exclude rows that match those values.
+
+Here's the basic syntax for using  `NOT IN`  with a list:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name NOT IN (value1, value2, ...);
+
+```
+
+In this syntax, we list the values we want to exclude in parentheses after  `NOT IN`.
+
+Let's look at an example:
+
+Suppose we have a table called  `students`  with columns for  `id`,  `name`, and  `grade`. We want to find all students who didn't get an A.
+
+We can use the  `NOT IN`  operator with a list of grades to exclude all students who got an A:
+
+```
+SELECT id, name, grade
+FROM students
+WHERE grade NOT IN ('A');
+
+```
+
+This will give us a result set that includes the  IDs, names, and grades of all students who didn't get an A.
+
+# A New Where Operator
+
+In addition to the  `NOT IN`  operator, we can also use the  `<>`  operator in the  `WHERE`  clause to exclude rows that match a specific value.
+
+Here's the basic syntax for using  `<>`  in the  `WHERE`  clause:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name <> value;
+
+```
+
+In this syntax, we specify the value we want to exclude after  `<>`.
+
+Let's look at an example:
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to find all employees who don't make $50,000 a year.
+
+We can use the  `<>`  operator to exclude all employees who make $50,000 a year:
+
+```
+SELECT name, age, salary
+FROM employees
+WHERE salary <> 50000;
+
+```
+
+This will give us a result set that includes the names, ages, and salaries of all employees who don't make $50,000 a year.
+
+# Finally Some!
+
+Let's practice using the  `NOT IN`  operator and the  `<>`  operator with an example.
+
+Suppose we have a table called  `orders`  with columns for  `order_id`,  `customer_id`, and  `order_date`. We want to find all customers who haven't placed an order in the last month.
+
+Here's the  SQL query  to do this:
+
+```
+SELECT DISTINCT customer_id
+FROM orders
+WHERE customer_id NOT IN (SELECT customer_id FROM orders WHERE order_date >= '2022-01-01');
+
+```
+
+This query will return the IDs of all customers who haven't placed an order after January 1, 2022.
+
+# Quiz 10: Is It A Valid Subquery?
+
+1.  Is this a valid subquery?
+
+```
+SELECT column1, column2, ...
+FROM table1
+WHERE column_name IN (SELECT column_name FROM another_table WHERE condition);
+
+```
+
+Answer: Yes, this is a valid subquery.
+
+2.  Is this a valid subquery?
+
+```
+SELECT column1, column2, ...
+FROM table1
+JOIN (SELECT column1, column2, ... FROM table2 WHERE condition) AS subquery_alias
+ON table1.column_name = subquery_alias.column_name;
+
+```
+
+Answer: Yes, this is a valid subquery.
+
+3.  Is this a valid subquery?
+
+```
+SELECT column1, column2, ...
+FROM table_name
+WHERE column_name NOT IN (value1, value2, ...);
+
+```
+
+Answer: No, this is not a subquery. It's just a regular query with a  `WHERE`  clause that uses the  `NOT IN`  operator.
+
+# Exercise Solution
+
+Here's the solution to the exercise:
+
+```
+SELECT name, age, salary
+FROM employees
+WHERE salary > (SELECT AVG(salary) FROM employees WHERE department_id = 1);
+
+```
+
+This query will return the names, ages, and salaries of all employees who have a salary greater than the average salary for the Sales department.
