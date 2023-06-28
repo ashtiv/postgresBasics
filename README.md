@@ -1172,9 +1172,10 @@ Here's the basic syntax for  `OFFSET`  and  `LIMIT`:
 ```
 SELECT column1, column2, ...
 FROM table_name
-ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ... 
-OFFSET offset_value
-LIMIT limit_value;
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...
+LIMIT limit_value
+OFFSET offset_value;
+
 
 ```
 
@@ -1207,8 +1208,8 @@ SELECT date, product, sales_amount
 FROM sales
 WHERE date >= '2022-01-01' AND date < '2022-02-01'
 ORDER BY sales_amount DESC
-OFFSET 0
-LIMIT 5;
+LIMIT 5
+OFFSET 0;
 
 ```
 
@@ -1222,8 +1223,8 @@ Here's the solution to the exercise:
 SELECT name, age, salary
 FROM employees
 ORDER BY salary DESC
-OFFSET 10
-LIMIT 5;
+LIMIT 5
+OFFSET 10;
 
 ```
 
