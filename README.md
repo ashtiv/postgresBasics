@@ -1104,3 +1104,127 @@ This query groups the  `sales`  table by  `product_category`, computes the sum o
 ## Conclusion
 
 Aggregate functions and grouping are powerful tools for summarizing and analyzing data in SQL. By using these functions, we can quickly answer questions about our data and gain insights into trends and patterns.
+
+# The Basics  of Sorting
+
+In SQL, you can use the  `ORDER BY`  clause to sort the results of your query based on one or more columns. By default, the results are sorted in ascending order, but you can also specify descending order.
+
+Here's the basic syntax for the  `ORDER BY`  clause:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ... ;
+
+```
+
+In this syntax,  `column1`,  `column2`, etc. are the columns that you want to sort by, and  `[ASC|DESC]`  specifies the sort order.
+
+Let's look at an example:
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to sort the employees by salary in  descending order:
+
+```
+SELECT name, age, salary
+FROM employees
+ORDER BY salary DESC;
+
+```
+
+This will give us a result set that is sorted by salary in descending order.
+
+# Two Variations on Sorting
+
+There are two other variations on the  `ORDER BY`  clause that are worth mentioning: sorting by a calculated column and sorting by a column alias.
+
+## Sorting by a  Calculated Column
+
+In SQL, you can use expressions in the  `ORDER BY`  clause to sort by a calculated column. For example, suppose we want to sort the employees by their salary divided by their age:
+
+```
+SELECT name, age, salary, salary/age AS salary_per_age
+FROM employees
+ORDER BY salary_per_age DESC;
+
+```
+
+This will give us a result set that is sorted by the calculated column  `salary_per_age`.
+
+## Sorting by a Column Alias
+
+You can also sort by a  column alias  that you have defined in the  `SELECT`  clause. For example, suppose we want to sort the employees by their salary divided by their age, and we want to give the column alias  `salary_per_age`:
+
+```
+SELECT name, age, salary, salary/age AS salary_per_age
+FROM employees
+ORDER BY salary_per_age DESC;
+
+```
+
+This will give us a  result set  that is sorted by the column alias  `salary_per_age`.
+
+# Offset and Limit
+
+In SQL, you can use the  `OFFSET`  and  `LIMIT`  clauses to page through the results of your query.  `OFFSET`  specifies the number of rows to skip before starting to return rows, and  `LIMIT`  specifies the maximum number of rows to return.
+
+Here's the basic syntax for  `OFFSET`  and  `LIMIT`:
+
+```
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ... 
+OFFSET offset_value
+LIMIT limit_value;
+
+```
+
+In this syntax,  `offset_value`  specifies the number of rows to skip, and  `limit_value`  specifies the maximum number of rows to return.
+
+Let's look at an example:
+
+Suppose we have a table called  `employees`  with columns for  `name`,  `age`, and  `salary`. We want to sort the employees by salary in descending order, and we only want to return the top 10 employees:
+
+```
+SELECT name, age, salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 10;
+
+```
+
+This will give us a result set that is sorted by salary in descending order, and it only includes the top 10 employees.
+
+# Sorting, Offsetting, and Limiting
+
+Let's practice using the  `ORDER BY`,  `OFFSET`, and  `LIMIT`  clauses together with an example.
+
+Suppose we have a table called  `sales`  with columns for  `date`,  `product`, and  `sales_amount`. We want to find the top 5 sales for the month of January, sorted by sales amount in descending order.
+
+Here's the  SQL query  to do this:
+
+```
+SELECT date, product, sales_amount
+FROM sales
+WHERE date >= '2022-01-01' AND date < '2022-02-01'
+ORDER BY sales_amount DESC
+OFFSET 0
+LIMIT 5;
+
+```
+
+This query will return the top 5 sales for the month of January, sorted by sales amount in descending order.
+
+# Exercise Solution
+
+Here's the solution to the exercise:
+
+```
+SELECT name, age, salary
+FROM employees
+ORDER BY salary DESC
+OFFSET 10
+LIMIT 5;
+
+```
+
+This query will return the 11th to 15th highest paid employees, sorted by salary in descending order.
